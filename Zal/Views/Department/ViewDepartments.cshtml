@@ -1,0 +1,48 @@
+﻿@model ViewMethodViewModel<Department>
+@inject IEmployeeRepository emloyeeRepository
+@{ var employees = emloyeeRepository.GetEmployees().Result; }
+
+<div class="container" style="max-width: 500px">
+    <div class="text-center pt-3">Lista wydziałów</div>
+    <table class="table table-striped" style="vertical-align: middle">
+        <thead>
+            <tr>
+                <th scope="col">Lp.</th>
+                <th scope="col"><a class="text-reset text-decoration-none" asp-action="ViewDepartments" asp-controller="Department" asp-route-sortType="@Model.SortTypeForColumns["Name"]">Nazwa</a></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int counter = 1; }
+            @foreach (var department in Model.Properties)
+            {
+                <tr>
+                    <th scope="row">@counter</th>
+                    <td>@department.Name</td>
+                    <td>
+                         <a class="btn btn-success btn-sm" asp-action="EditDepartment" asp-controller="Department" asp-route-id="@department.ID">Edytuj</a>
+                    </td>
+                    <td>
+                        @if (employees.Any(e => e.DepartmentID == department.ID))
+                        {
+                            <a class="btn btn-danger btn-sm" onclick="alert('Nie można usunąć wydziału ponieważ wciąż są do niego przypisani pracownicy.')">Usuń</a>
+                        }
+                        else
+                        {
+                            <form asp-action="DeleteDepartment" asp-controller="Department" asp-route-id="@department.ID" method="post">
+                                <button class="btn btn-danger btn-sm" type="submit" onclick="return confirm('Czy na pewno usunąć wydział @department.Name?')">Usuń</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+                counter++;
+            }
+        </tbody>
+    </table>
+    <div class="row pt-3">
+        <div class="col text-center">
+            <a class="btn btn-primary" asp-action="AddDepartment" asp-controller="Department">Dodaj wydział</a>
+        </div>
+    </div>
+</div>

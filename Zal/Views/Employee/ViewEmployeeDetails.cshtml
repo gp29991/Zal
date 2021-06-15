@@ -1,0 +1,17 @@
+﻿@model Employee
+
+<div class="container" style="max-width: 500px">
+    <ul class="list-group list-group-flush pt-3">
+        <li class="list-group-item"><strong>Imię i nazwisko:</strong> @Model.FirstName @Model.LastName</li>
+        <li class="list-group-item"><strong>Adres e-mail:</strong> @Model.Email</li>
+        <li class="list-group-item"><strong>Płaca:</strong> @Html.DisplayFor(Model => Model.Salary)</li>
+        <li class="list-group-item"><strong>Wydział:</strong> @Model.Department.Name</li>
+        <li class="list-group-item"><strong>Adres:</strong> @Model.Address.City, ul. @Model.Address.Street @Model.Address.BuildingNo/@Html.DisplayFor(Model => Model.Address.ApartmentNo)</li>
+    </ul>
+
+    <div class="row pt-3">
+        <div class="col text-center">
+            <a class="btn btn-secondary" asp-action="ViewEmployees" asp-controller="Employee">Powrót do listy pracowników</a>
+        </div>
+    </div>
+</div>

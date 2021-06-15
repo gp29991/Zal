@@ -1,0 +1,33 @@
+﻿@model Department
+
+<div class="container" style="max-width: 500px">
+    <div class="text-center pt-3">Edycja wydziału</div>
+    <form asp-controller="Department" asp-action="EditDepartment" method="post">
+        <input hidden asp-for="ID" />
+        <div class="row pt-3">
+            <div class="col-4">
+                <label asp-for="Name" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row pt-3">
+            <div class="col text-center text-danger">@Html.ValidationMessage("DepartmentAlreadyExists")</div>
+        </div>
+
+        <div class="row pt-3">
+            <div class="col text-center">
+                <button type="submit" class="btn btn-primary">Zapisz</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row pt-3">
+        <div class="col text-center">
+            <a class="btn btn-secondary" asp-action="ViewDepartments" asp-controller="Department">Powrót do listy wydziałów</a>
+        </div>
+    </div>
+</div>

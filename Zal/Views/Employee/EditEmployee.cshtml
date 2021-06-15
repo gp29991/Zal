@@ -1,0 +1,108 @@
+﻿@model Employee
+@inject IDepartmentRepository departmentRepository
+
+<div class="container" style="max-width: 500px">
+    <div class="text-center pt-3">Edycja pracownika</div>
+    <form asp-controller="Employee" asp-action="EditEmployee" method="post">
+        <input hidden asp-for="ID" />
+        <input hidden asp-for="Address.ID" />
+        <div class="row pt-3">
+            <div class="col-4">
+                <label asp-for="FirstName" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row pt-3">
+            <div class="col-4">
+                <label asp-for="LastName" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row pt-3">
+            <div class="col-4">
+                <label asp-for="Email" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row pt-3">
+            <div class="col-4">
+                <label asp-for="DepartmentID" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <select asp-for="DepartmentID" asp-items="(@departmentRepository.GetDepartments().Result.OrderBy(d => d.Name).Select(item => new SelectListItem() { Value = item.ID.ToString(), Text = item.Name }).ToList())" class="form-select">
+                    <option value="" disabled hidden selected>--Wybierz wydział--</option>
+                </select>
+                <span asp-validation-for="DepartmentID" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row pt-3">
+            <div class="col-4">
+                <label asp-for="Salary" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Salary" class="form-control" />
+                <span asp-validation-for="Salary" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row pt-3">
+            <div class="col-4">
+                <label asp-for="Address.City" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Address.City" class="form-control" />
+                <span asp-validation-for="Address.City" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row pt-3">
+            <div class="col-4">
+                <label asp-for="Address.Street" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Address.Street" class="form-control" />
+                <span asp-validation-for="Address.Street" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row pt-3">
+            <div class="col-4">
+                <label asp-for="Address.BuildingNo" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Address.BuildingNo" class="form-control" />
+                <span asp-validation-for="Address.BuildingNo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row pt-3">
+            <div class="col-4">
+                <label asp-for="Address.ApartmentNo" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Address.ApartmentNo" class="form-control" />
+                <span asp-validation-for="Address.ApartmentNo" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row pt-3">
+            <div class="col text-center">
+                <button type="submit" class="btn btn-primary">Zapisz</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row pt-3">
+        <div class="col text-center">
+            <a class="btn btn-secondary" asp-action="ViewEmployees" asp-controller="Employee">Powrót do listy pracowników</a>
+        </div>
+    </div>
+</div>
+

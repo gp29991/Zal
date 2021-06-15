@@ -1,0 +1,64 @@
+﻿@model ViewMethodViewModel<Employee>
+@inject IDepartmentRepository departmentRepository
+
+<div class="container" style="max-width: 1000px">
+    <div class="text-center pt-3">Lista pracowników</div>
+    <table class="table table-striped" style="vertical-align: middle">
+        <thead>
+            <tr>
+                <th scope="col">Lp.</th>
+                <th scope="col"><a class="text-reset text-decoration-none" asp-action="ViewEmployees" asp-controller="Employee" asp-route-sortBy="FirstName" asp-route-sortType="@Model.SortTypeForColumns["FirstName"]">Imię</a></th>
+                <th scope="col"><a class="text-reset text-decoration-none" asp-action="ViewEmployees" asp-controller="Employee" asp-route-sortBy="LastName" asp-route-sortType="@Model.SortTypeForColumns["LastName"]">Nazwisko</a></th>
+                <th scope="col"><a class="text-reset text-decoration-none" asp-action="ViewEmployees" asp-controller="Employee" asp-route-sortBy="Department" asp-route-sortType="@Model.SortTypeForColumns["Department"]">Wydział</a></th>
+                <th scope="col"></th>
+                @if (User.IsInRole(RoleTypes.Manager) || User.IsInRole(RoleTypes.Administrator))
+                {
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @{ int counter = 1; }
+            @foreach (var employee in Model.Properties)
+            {
+                <tr>
+                    <th scope="row">@counter</th>
+                    <td>@employee.FirstName</td>
+                    <td>@employee.LastName</td>
+                    <td>@employee.Department.Name</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" asp-action="ViewEmployeeDetails" asp-controller="Employee" asp-route-id="@employee.ID">Szczegóły</a>
+                    </td>
+                    @if (User.IsInRole(RoleTypes.Manager) || User.IsInRole(RoleTypes.Administrator))
+                    {
+                        <td>
+                            <a class="btn btn-success btn-sm" asp-action="EditEmployee" asp-controller="Employee" asp-route-id="@employee.ID">Edytuj</a>
+                        </td>
+                        <td>
+                            <form asp-action="DeleteEmployee" asp-controller="Employee" asp-route-id="@employee.ID" method="post">
+                                <button class="btn btn-danger btn-sm" type="submit" onclick="return confirm('Czy na pewno usunąć pracownika @employee.FirstName @employee.LastName?')">Usuń</button>
+                            </form>
+                        </td>
+                    }
+                </tr>
+                counter++;
+            }
+        </tbody>
+    </table>
+    @if (User.IsInRole(RoleTypes.Manager) || User.IsInRole(RoleTypes.Administrator))
+    {
+        <div class="row pt-3">
+            <div class="col text-center">
+                @if (departmentRepository.GetDepartments().Result.Count == 0)
+                {
+                    <a class="btn btn-primary" onclick="alert('Nie można dodać pracownika ponieważ nie utworzono żadnych wydziałów.')">Dodaj pracownika</a>
+                }
+                else
+                {
+                    <a class="btn btn-primary" asp-action="AddEmployee" asp-controller="Employee">Dodaj pracownika</a>
+                }
+            </div>
+        </div>
+    }
+</div>

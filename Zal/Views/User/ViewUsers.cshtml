@@ -1,0 +1,37 @@
+﻿@model ViewMethodViewModel<ApplicationUser>
+
+<div class="container" style="max-width: 500px">
+    <div class="text-center pt-3">Lista użytkowników</div>
+    <table class="table table-striped" style="vertical-align: middle">
+        <thead>
+            <tr>
+                <th scope="col">Lp.</th>
+                <th scope="col"><a class="text-reset text-decoration-none" asp-action="ViewUsers" asp-controller="User" asp-route-sortBy="UserName" asp-route-sortType="@Model.SortTypeForColumns["UserName"]">Nazwa</a></th>
+                <th scope="col"><a class="text-reset text-decoration-none" asp-action="ViewUsers" asp-controller="User" asp-route-sortBy="Role" asp-route-sortType="@Model.SortTypeForColumns["Role"]">Rola</a></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+            <tbody>
+            @{ int counter = 1; }
+            @foreach (var user in Model.Properties)
+            {
+                <tr>
+                    <th scope="row">@counter</th>
+                    <td>@user.UserName</td>
+                    <td>@user.Role</td>
+                    <td>
+                        <form asp-action="DeleteUser" asp-controller="User" asp-route-id="@user.Id" method="post">
+                            <button class="btn btn-danger btn-sm" type="submit" onclick="return confirm('Czy na pewno usunąć użytkownika @user.UserName?\nUWAGA: Jeśli usuwany jest użytkownik aktualnie zalogowany, nastąpi wylogowanie!')">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
+                counter++;
+            }
+            </tbody>
+        </table>
+    <div class="row pt-3">
+        <div class="col text-center">
+            <a class="btn btn-primary" asp-action="AddUser" asp-controller="User">Dodaj użytkownika</a>
+        </div>
+    </div>
+</div>

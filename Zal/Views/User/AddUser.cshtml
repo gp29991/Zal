@@ -1,0 +1,63 @@
+﻿@model AddUserViewModel
+
+<div class="container" style="max-width: 500px">
+    <div class="text-center pt-3">Dodawanie użytkownika</div>
+    <form asp-controller="User" asp-action="AddUser" method="post">
+        <div class="row pt-3">
+            <div class="col-4">
+                <label asp-for="Username" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row pt-3">
+            <div class="col-4">
+                <label asp-for="Password" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row pt-3">
+            <div class="col-4">
+                <label asp-for="ConfirmPassword" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row pt-3">
+            <div class="col-4">
+                <label asp-for="Role" class="col-form-label"></label>
+            </div>
+            <div class="col-8">
+                <select asp-for="Role" asp-items="(@RoleTypes.list.Select(item => new SelectListItem() { Value = item, Text = item }).ToList())" class="form-select">
+                    <option value="" disabled hidden selected>--Wybierz rolę--</option>
+                </select>
+                <span asp-validation-for="Role" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row pt-3">
+            <div class="col text-center text-danger">@Html.ValidationMessage("UserAlreadyExists")</div>
+        </div>
+
+        <div class="row pt-3">
+            <div class="col text-center">
+                <button type="submit" class="btn btn-primary">Dodaj</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row pt-3">
+        <div class="col text-center">
+            <a class="btn btn-secondary" asp-action="ViewUsers" asp-controller="User">Powrót do listy użytkowników</a>
+        </div>
+    </div>
+
+</div>
